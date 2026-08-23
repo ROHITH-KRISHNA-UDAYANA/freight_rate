@@ -1,0 +1,4 @@
+partition,start_date,end_date,rows,purpose
+inner_train,2025-01-01,2025-07-31,33718,fit candidates during hyperparameter tuning
+tuning,2025-08-01,2025-08-31,4759,select regularization and robustness parameters
+holdout,2025-09-01,2025-10-31,9523,unbiased final model-family comparison

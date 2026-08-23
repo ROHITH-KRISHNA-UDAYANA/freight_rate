@@ -1,0 +1,24 @@
+{
+  "selection_metric": "MAE",
+  "primary_model": "engineered_ridge_full",
+  "primary_parameters": {
+    "alpha": 1500.0,
+    "delta": 1.5
+  },
+  "december_model": "robust_huber_lane_common",
+  "december_parameters": {
+    "alpha": 1.0,
+    "delta": 1.0,
+    "lane_smoothing": 5.0
+  },
+  "primary_holdout_metrics": {
+    "mae": 116.88602433374281,
+    "rmse": 635.9758789462684,
+    "mape_percent": 5.542229688093695
+  },
+  "december_holdout_metrics": {
+    "mae": 206.2075129451088,
+    "rmse": 657.2972133399885,
+    "mape_percent": 11.528957697857956
+  }
+}

@@ -1,0 +1,28 @@
+SPOTTER FREIGHT-RATE MODEL TRAINING
+Chronological partitions: inner train=33,718 rows through 2025-07-31; tuning=4,759 rows in August; final holdout=9,523 rows across Sep-Oct (61 days).
+The 61-day holdout matches the 61-day Nov-Dec final inference horizon and avoids using future rows to predict the past.
+Tuned engineered_ridge_full: parameters={'alpha': 1500.0, 'delta': 1.5}, August MAE=123.50, RMSE=615.19, MAPE=7.17%
+Tuned engineered_log_ridge_full: parameters={'alpha': 500.0, 'delta': 1.5}, August MAE=96.42, RMSE=613.56, MAPE=4.82%
+Tuned robust_huber_full: parameters={'alpha': 1.0, 'delta': 1.0}, August MAE=94.09, RMSE=614.93, MAPE=4.90%
+Tuned robust_huber_lane_full: parameters={'alpha': 10.0, 'delta': 1.0, 'lane_smoothing': 5.0}, August MAE=89.36, RMSE=615.16, MAPE=4.59%
+Tuned engineered_ridge_common: parameters={'alpha': 0.01, 'delta': 1.5}, August MAE=128.01, RMSE=616.72, MAPE=6.65%
+Tuned robust_huber_common: parameters={'alpha': 0.1, 'delta': 1.0}, August MAE=95.15, RMSE=614.26, MAPE=4.81%
+Tuned robust_huber_lane_common: parameters={'alpha': 1.0, 'delta': 1.0, 'lane_smoothing': 5.0}, August MAE=91.31, RMSE=614.62, MAPE=4.53%
+
+FINAL CHRONOLOGICAL HOLDOUT RESULTS
+                    model feature_set       mae      rmse  mape_percent                                     tuned_parameters
+    engineered_ridge_full        full   116.886   635.976         5.542                      {"alpha": 1500.0, "delta": 1.5}
+   robust_huber_lane_full        full   134.286   641.374         5.847 {"alpha": 10.0, "delta": 1.0, "lane_smoothing": 5.0}
+engineered_log_ridge_full        full   137.274   641.520         6.065                       {"alpha": 500.0, "delta": 1.5}
+        robust_huber_full        full   137.385   643.027         6.032                         {"alpha": 1.0, "delta": 1.0}
+ robust_huber_lane_common      common   206.208   657.297        11.529  {"alpha": 1.0, "delta": 1.0, "lane_smoothing": 5.0}
+      robust_huber_common      common   207.939   658.970        11.625                         {"alpha": 0.1, "delta": 1.0}
+  engineered_ridge_common      common   220.913   663.608        12.846                        {"alpha": 0.01, "delta": 1.5}
+     median_rate_per_mile    baseline   256.953   684.248        11.631                                                   {}
+            global_median    baseline 1,148.924 1,569.424        70.146                                                   {}
+
+Selected primary model by lowest holdout MAE: engineered_ridge_full
+Selected December-compatible model by lowest holdout MAE: robust_huber_lane_common
+
+Wrote 12,000 validation predictions; range $97.26 to $6,708.22.
+Wrote 31 December predictions; range $854.43 to $939.10.

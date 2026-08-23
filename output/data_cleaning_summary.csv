@@ -1,0 +1,7 @@
+dataset,issue,affected_rows,treatment
+train_test,missing_weight,300,"equipment-specific training median, then global training median"
+train_test,negative_weight,292,absolute value (verified sign-flip error pattern)
+train_test,missing_market_index,374,"same-day batch median, then training-global median"
+validation,missing_weight,165,"equipment-specific training median, then global training median"
+validation,negative_weight,145,absolute value (verified sign-flip error pattern)
+validation,missing_market_index,249,"same-day batch median, then training-global median"
