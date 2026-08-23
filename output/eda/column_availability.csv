@@ -1,0 +1,16 @@
+column,train_test.csv,validation.csv,validation_predictions_template.csv,december_chart_inputs.csv
+date,True,True,False,True
+delivery,True,True,False,True
+delivery_lat,True,True,False,False
+delivery_lon,True,True,False,False
+distance,True,True,False,True
+equipment,True,True,False,True
+load_id,True,True,True,False
+market_index,True,True,False,False
+pickup,True,True,False,True
+pickup_lat,True,True,False,False
+pickup_lon,True,True,False,False
+posted_rate,True,False,False,False
+predicted_rate,False,False,True,True
+quote_signal,True,True,False,False
+weight,True,True,False,True

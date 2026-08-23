@@ -1,0 +1,4 @@
+column,train_unique,validation_unique,shared_unique,validation_only_count,validation_only_values
+pickup,64,72,64,8,Allentown | Charlotte | Chicago | Jackson | Knoxville | Laredo | Norfolk | San Diego
+delivery,64,72,64,8,Allentown | Charlotte | Chicago | Jackson | Knoxville | Laredo | Norfolk | San Diego
+equipment,3,3,3,0,

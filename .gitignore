@@ -2,6 +2,7 @@
 .venv/
 .poetry-cache/
 .poetry-config/
+.matplotlib/
 
 # Python caches and test artifacts
 __pycache__/
@@ -19,3 +20,5 @@ Thumbs.db
 tmp/
 *.tmp
 *.log
+!output/eda/exploration.log
+!output/training.log
