@@ -108,7 +108,9 @@ def tune_candidate(
                     prediction = tuning_base + adjustment.predict(clean_tuning)
                     prediction = np.maximum(prediction, model.lower_bound)
                 metrics = regression_metrics(target, prediction)
-                params = {"alpha": alpha, "delta": delta}
+                params = {"alpha": alpha}
+                if family == "huber":
+                    params["delta"] = delta
                 if smoothing is not None:
                     params["lane_smoothing"] = smoothing
                 trials.append((params, metrics))
@@ -156,7 +158,9 @@ def main() -> None:
     train = pd.read_csv(DATA_DIR / "train_test.csv")
     validation = pd.read_csv(DATA_DIR / "validation.csv")
     template = pd.read_csv(DATA_DIR / "validation_predictions_template.csv")
-    december = pd.read_csv(DATA_DIR / "december_chart_inputs.csv")
+    # Read the preserved blank shell so repeated runs are deterministic; write
+    # the completed artifact to the official filename below.
+    december = pd.read_csv(DATA_DIR / "december_chart_inputs_template.csv")
     inner_train, tuning, holdout = split_by_date(train)
     model_train = pd.concat([inner_train, tuning], ignore_index=True)
 
@@ -261,7 +265,7 @@ def main() -> None:
                     feature_set=specification["feature_set"],
                     family=specification["family"],
                     alpha=params["alpha"],
-                    delta=params["delta"],
+                    delta=params.get("delta", 1.5),
                     lane_smoothing=params.get("lane_smoothing"),
                 )
                 fitted_holdout_models[name] = model
@@ -318,7 +322,7 @@ def main() -> None:
                 feature_set=primary_spec["feature_set"],
                 family=primary_spec["family"],
                 alpha=primary_params["alpha"],
-                delta=primary_params["delta"],
+                delta=primary_params.get("delta", 1.5),
                 lane_smoothing=primary_params.get("lane_smoothing"),
             )
             validation_prediction = primary_model.predict(validation)
@@ -338,7 +342,7 @@ def main() -> None:
                 feature_set="common",
                 family=december_spec["family"],
                 alpha=december_params["alpha"],
-                delta=december_params["delta"],
+                delta=december_params.get("delta", 1.5),
                 lane_smoothing=december_params.get("lane_smoothing"),
             )
             december_output = december.copy()

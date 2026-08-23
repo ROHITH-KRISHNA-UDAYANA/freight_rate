@@ -2,8 +2,7 @@
   "selection_metric": "MAE",
   "primary_model": "engineered_ridge_full",
   "primary_parameters": {
-    "alpha": 1500.0,
-    "delta": 1.5
+    "alpha": 1500.0
   },
   "december_model": "robust_huber_lane_common",
   "december_parameters": {

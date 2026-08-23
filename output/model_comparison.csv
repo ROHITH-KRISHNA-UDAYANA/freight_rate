@@ -1,10 +1,10 @@
 model,feature_set,selection_split,mae,rmse,mape_percent,tuned_parameters
-engineered_ridge_full,full,2025-09-01 to 2025-10-31,116.886024,635.975879,5.542230,"{""alpha"": 1500.0, ""delta"": 1.5}"
+engineered_ridge_full,full,2025-09-01 to 2025-10-31,116.886024,635.975879,5.542230,"{""alpha"": 1500.0}"
 robust_huber_lane_full,full,2025-09-01 to 2025-10-31,134.285505,641.373675,5.847358,"{""alpha"": 10.0, ""delta"": 1.0, ""lane_smoothing"": 5.0}"
-engineered_log_ridge_full,full,2025-09-01 to 2025-10-31,137.273980,641.520211,6.064560,"{""alpha"": 500.0, ""delta"": 1.5}"
+engineered_log_ridge_full,full,2025-09-01 to 2025-10-31,137.273980,641.520211,6.064560,"{""alpha"": 500.0}"
 robust_huber_full,full,2025-09-01 to 2025-10-31,137.385184,643.027126,6.031585,"{""alpha"": 1.0, ""delta"": 1.0}"
 robust_huber_lane_common,common,2025-09-01 to 2025-10-31,206.207513,657.297213,11.528958,"{""alpha"": 1.0, ""delta"": 1.0, ""lane_smoothing"": 5.0}"
 robust_huber_common,common,2025-09-01 to 2025-10-31,207.939489,658.969819,11.624866,"{""alpha"": 0.1, ""delta"": 1.0}"
-engineered_ridge_common,common,2025-09-01 to 2025-10-31,220.912584,663.607874,12.846091,"{""alpha"": 0.01, ""delta"": 1.5}"
+engineered_ridge_common,common,2025-09-01 to 2025-10-31,220.912584,663.607874,12.846091,"{""alpha"": 0.01}"
 median_rate_per_mile,baseline,2025-09-01 to 2025-10-31,256.952939,684.247911,11.631462,{}
 global_median,baseline,2025-09-01 to 2025-10-31,1148.923726,1569.424179,70.146282,{}

@@ -233,7 +233,9 @@ def main() -> None:
         "validation_predictions_template.csv": pd.read_csv(
             DATA_DIR / "validation_predictions_template.csv"
         ),
-        "december_chart_inputs.csv": pd.read_csv(DATA_DIR / "december_chart_inputs.csv"),
+        # Audit the untouched shell so rerunning exploration after training does
+        # not reinterpret generated predictions as source data.
+        "december_chart_inputs.csv": pd.read_csv(DATA_DIR / "december_chart_inputs_template.csv"),
     }
 
     original_stdout = sys.stdout
