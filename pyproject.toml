@@ -1,0 +1,18 @@
+[project]
+name = "spotter-freight-rate-assessment"
+version = "0.1.0"
+description = "Reproducible freight-rate modeling assessment for Spotter"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "matplotlib>=3.8,<4",
+    "numpy>=1.26,<3",
+    "pandas>=2.0,<3",
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0,<3"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,21 @@
+# Project-local Python environment
+.venv/
+.poetry-cache/
+.poetry-config/
+
+# Python caches and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# Editor and operating-system metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temporary files (final, reviewable artifacts remain tracked under output/)
+tmp/
+*.tmp
+*.log
