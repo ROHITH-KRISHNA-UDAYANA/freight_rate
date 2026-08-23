@@ -1,0 +1,20 @@
+{
+  "raw_distance_rate_correlation": 0.9085191518300776,
+  "log_distance_log_rate_correlation": 0.9674098717592715,
+  "outlier_audit": {
+    "baseline": "January-July robust Huber ridge, evaluated in-sample only for label audit",
+    "outlier_definition": "posted_rate / baseline_prediction >= 2.5",
+    "outlier_rows": 209,
+    "outlier_percent": 0.619846966012219,
+    "outlier_ratio_min": 2.5047220362442877,
+    "outlier_ratio_max": 5.328948083119042,
+    "maximum_absolute_numeric_smd": 0.14668385673972015,
+    "maximum_categorical_cramers_v": 0.05166703446795389,
+    "interpretation": "Extreme labels are rare. Numeric distribution tests find no meaningful separation; categorical effect sizes are also tiny even where a sparse chi-square test detects a delivery mix difference. Their extreme magnitude is not learnable from the supplied predictors."
+  },
+  "split": {
+    "inner_train": "2025-01-01 to 2025-07-31",
+    "early_stopping": "2025-08-01 to 2025-08-31",
+    "holdout": "2025-09-01 to 2025-10-31"
+  }
+}

@@ -1,8 +1,8 @@
-"""Dependency-light freight-rate models built with pandas and NumPy only.
+"""Explicit linear freight-rate baselines built with pandas and NumPy.
 
-The assessment intentionally restricts dependencies to pandas, NumPy, and
-Matplotlib.  These implementations keep the modeling logic explicit and
-reviewable instead of silently relying on an unavailable ML framework.
+These implementations keep the original ridge and robust baselines reviewable
+and dependency-light. Native-categorical gradient boosting lives separately in
+``lightgbm_model.py`` so it cannot accidentally enter this one-hot feature path.
 """
 
 from __future__ import annotations
@@ -18,15 +18,17 @@ TARGET = "posted_rate"
 
 
 def regression_metrics(actual: np.ndarray, predicted: np.ndarray) -> dict[str, float]:
-    """Return the three metrics requested for model comparison."""
+    """Return holdout error metrics, including coefficient of determination."""
 
     actual = np.asarray(actual, dtype=float)
     predicted = np.asarray(predicted, dtype=float)
     errors = predicted - actual
+    total_variation = float(np.sum((actual - actual.mean()) ** 2))
     return {
         "mae": float(np.mean(np.abs(errors))),
         "rmse": float(np.sqrt(np.mean(errors**2))),
         "mape_percent": float(np.mean(np.abs(errors) / np.maximum(np.abs(actual), 1e-9)) * 100.0),
+        "r2": float(1.0 - np.sum(errors**2) / total_variation) if total_variation else np.nan,
     }
 
 

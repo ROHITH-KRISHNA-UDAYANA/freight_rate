@@ -1,0 +1,110 @@
+SPOTTER NATIVE-CATEGORICAL LIGHTGBM TUNING
+inner_train=33,718; August=4,759; untouched holdout=9,523
+All configuration choices below use August dollar MAE only. Sep-Oct is evaluated once per frozen variant after tuning ends.
+Outlier audit: {"baseline": "January-July robust Huber ridge, evaluated in-sample only for label audit", "interpretation": "Extreme labels are rare and available-feature effect sizes are small; their magnitude is not learnable from the supplied predictors.", "maximum_absolute_numeric_smd": 0.14668385673972015, "outlier_definition": "posted_rate / baseline_prediction >= 2.5", "outlier_percent": 0.619846966012219, "outlier_ratio_max": 5.328948083119042, "outlier_ratio_min": 2.5047220362442877, "outlier_rows": 209}
+Distance/target correlation: raw=0.908519; log-log=0.967410
+full   screen        l1/raw leaves=127 lr=0.02 child=12 iter=1315 Aug MAE=117.24 MAPE=5.391% (11.8s)
+full   screen        l1/log leaves=127 lr=0.02 child=12 iter=4678 Aug MAE=114.78 MAPE=5.282% (43.8s)
+full   screen        l2/raw leaves=127 lr=0.02 child=12 iter= 169 Aug MAE=204.61 MAPE=9.382% (2.5s)
+full   screen        l2/log leaves=127 lr=0.02 child=12 iter= 187 Aug MAE=143.04 MAPE=6.442% (3.1s)
+full screen winner: l1/log at August MAE=114.78
+full   leaf_lr_grid  l1/log leaves= 63 lr=0.01 child=12 iter=4948 Aug MAE=115.45 MAPE=5.419% (45.5s)
+full   leaf_lr_grid  l1/log leaves= 63 lr=0.02 child=12 iter=1532 Aug MAE=114.91 MAPE=5.372% (195.0s)
+full   leaf_lr_grid  l1/log leaves= 63 lr=0.03 child=12 iter=2599 Aug MAE=115.53 MAPE=5.451% (28.9s)
+full   leaf_lr_grid  l1/log leaves=100 lr=0.01 child=12 iter=3702 Aug MAE=115.62 MAPE=5.335% (46.1s)
+full   leaf_lr_grid  l1/log leaves=100 lr=0.02 child=12 iter=4236 Aug MAE=115.73 MAPE=5.332% (38.4s)
+full   leaf_lr_grid  l1/log leaves=100 lr=0.03 child=12 iter=2162 Aug MAE=117.69 MAPE=5.411% (20.6s)
+full   leaf_lr_grid  l1/log leaves=127 lr=0.01 child=12 iter=5000 Aug MAE=115.89 MAPE=5.352% (54.4s)
+full   leaf_lr_grid  l1/log leaves=127 lr=0.03 child=12 iter=1173 Aug MAE=116.56 MAPE=5.331% (14.8s)
+full   leaf_lr_grid  l1/log leaves=150 lr=0.01 child=12 iter=4999 Aug MAE=115.48 MAPE=5.286% (63.9s)
+full   leaf_lr_grid  l1/log leaves=150 lr=0.02 child=12 iter=5000 Aug MAE=116.82 MAPE=5.389% (61.9s)
+full   leaf_lr_grid  l1/log leaves=150 lr=0.03 child=12 iter=4279 Aug MAE=116.57 MAPE=5.373% (58.8s)
+full   child_refine  l1/log leaves=127 lr=0.02 child=10 iter=3378 Aug MAE=115.53 MAPE=5.336% (42.4s)
+full   child_refine  l1/log leaves=127 lr=0.02 child=15 iter=3296 Aug MAE=116.02 MAPE=5.333% (40.7s)
+full   child_refine  l1/log leaves=127 lr=0.02 child=20 iter=4057 Aug MAE=116.28 MAPE=5.330% (48.3s)
+full   child_refine  l1/log leaves= 63 lr=0.02 child=10 iter=2079 Aug MAE=115.15 MAPE=5.425% (16.4s)
+full   child_refine  l1/log leaves= 63 lr=0.02 child=15 iter=3139 Aug MAE=115.10 MAPE=5.426% (25.1s)
+full   child_refine  l1/log leaves= 63 lr=0.02 child=20 iter=4462 Aug MAE=114.88 MAPE=5.414% (35.4s)
+full   sampling_check l1/log leaves=127 lr=0.02 child=12 iter=4980 Aug MAE=115.01 MAPE=5.279% (59.8s)
+full   sampling_check l1/log leaves=127 lr=0.02 child=12 iter=3945 Aug MAE=114.51 MAPE=5.282% (46.5s)
+full   sampling_check l1/log leaves=127 lr=0.02 child=12 iter=3556 Aug MAE=113.35 MAPE=5.233% (40.8s)
+full   sampling_check l1/log leaves=127 lr=0.02 child=12 iter=2566 Aug MAE=112.78 MAPE=5.228% (29.4s)
+full   lane_check    l1/log leaves=127 lr=0.02 child=12 iter=4998 Aug MAE=115.52 MAPE=5.316% (72.9s)
+full   category_reg  l1/log leaves=127 lr=0.02 child=12 iter=4777 Aug MAE=115.89 MAPE=5.335% (43.6s)
+full   category_reg  l1/log leaves=127 lr=0.02 child=12 iter=3159 Aug MAE=116.52 MAPE=5.325% (33.1s)
+full   category_reg  l1/log leaves=127 lr=0.02 child=12 iter=4355 Aug MAE=115.43 MAPE=5.314% (39.3s)
+full   category_reg  l1/log leaves=127 lr=0.02 child=12 iter=3835 Aug MAE=114.71 MAPE=5.277% (35.3s)
+Frozen full winner before holdout: l1/log, iteration=2566, config={'objective': 'l1', 'num_leaves': 127, 'learning_rate': 0.02, 'min_child_samples': 12, 'max_depth': -1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'cat_smooth': 10.0, 'cat_l2': 10.0, 'include_lane': False}
+common screen        l1/raw leaves=127 lr=0.02 child=12 iter=4296 Aug MAE=88.83 MAPE=4.166% (31.5s)
+common screen        l1/log leaves=127 lr=0.02 child=12 iter=3323 Aug MAE=87.88 MAPE=4.139% (25.2s)
+common screen        l2/raw leaves=127 lr=0.02 child=12 iter= 268 Aug MAE=184.38 MAPE=8.316% (2.5s)
+common screen        l2/log leaves=127 lr=0.02 child=12 iter= 158 Aug MAE=127.78 MAPE=6.366% (2.0s)
+common screen winner: l1/log at August MAE=87.88
+common leaf_lr_grid  l1/log leaves= 63 lr=0.01 child=12 iter=4964 Aug MAE=87.36 MAPE=4.105% (25.1s)
+common leaf_lr_grid  l1/log leaves= 63 lr=0.02 child=12 iter=3026 Aug MAE=86.82 MAPE=4.099% (16.7s)
+common leaf_lr_grid  l1/log leaves= 63 lr=0.03 child=12 iter=2694 Aug MAE=87.00 MAPE=4.097% (15.1s)
+common leaf_lr_grid  l1/log leaves=100 lr=0.01 child=12 iter=4989 Aug MAE=86.85 MAPE=4.095% (33.7s)
+common leaf_lr_grid  l1/log leaves=100 lr=0.02 child=12 iter=4981 Aug MAE=87.41 MAPE=4.123% (33.8s)
+common leaf_lr_grid  l1/log leaves=100 lr=0.03 child=12 iter=4259 Aug MAE=87.20 MAPE=4.111% (28.9s)
+common leaf_lr_grid  l1/log leaves=127 lr=0.01 child=12 iter=4997 Aug MAE=87.26 MAPE=4.117% (38.8s)
+common leaf_lr_grid  l1/log leaves=127 lr=0.03 child=12 iter=2675 Aug MAE=87.89 MAPE=4.129% (21.7s)
+common leaf_lr_grid  l1/log leaves=150 lr=0.01 child=12 iter=5000 Aug MAE=87.25 MAPE=4.120% (44.7s)
+common leaf_lr_grid  l1/log leaves=150 lr=0.02 child=12 iter=3853 Aug MAE=87.65 MAPE=4.131% (34.6s)
+common leaf_lr_grid  l1/log leaves=150 lr=0.03 child=12 iter=2664 Aug MAE=87.73 MAPE=4.149% (23.6s)
+common child_refine  l1/log leaves= 63 lr=0.02 child=10 iter=2720 Aug MAE=87.27 MAPE=4.111% (15.0s)
+common child_refine  l1/log leaves= 63 lr=0.02 child=15 iter=3717 Aug MAE=87.10 MAPE=4.117% (19.5s)
+common child_refine  l1/log leaves= 63 lr=0.02 child=20 iter=2616 Aug MAE=87.10 MAPE=4.110% (14.4s)
+common child_refine  l1/log leaves=100 lr=0.01 child=10 iter=3598 Aug MAE=87.76 MAPE=4.139% (36.9s)
+common child_refine  l1/log leaves=100 lr=0.01 child=15 iter=4999 Aug MAE=87.19 MAPE=4.111% (39.1s)
+common child_refine  l1/log leaves=100 lr=0.01 child=20 iter=5000 Aug MAE=87.17 MAPE=4.119% (36.1s)
+common sampling_check l1/log leaves= 63 lr=0.02 child=12 iter=4981 Aug MAE=86.19 MAPE=4.074% (26.7s)
+common sampling_check l1/log leaves= 63 lr=0.02 child=12 iter=3065 Aug MAE=86.81 MAPE=4.088% (15.6s)
+common sampling_check l1/log leaves= 63 lr=0.02 child=12 iter=2394 Aug MAE=86.89 MAPE=4.097% (12.3s)
+common sampling_check l1/log leaves= 63 lr=0.02 child=12 iter=4083 Aug MAE=85.77 MAPE=4.045% (19.6s)
+common lane_check    l1/log leaves= 63 lr=0.02 child=12 iter=2240 Aug MAE=88.43 MAPE=4.197% (19.4s)
+common category_reg  l1/log leaves= 63 lr=0.02 child=12 iter=2632 Aug MAE=87.92 MAPE=4.142% (15.3s)
+common category_reg  l1/log leaves= 63 lr=0.02 child=12 iter=2973 Aug MAE=86.83 MAPE=4.098% (16.1s)
+common category_reg  l1/log leaves= 63 lr=0.02 child=12 iter=3421 Aug MAE=87.32 MAPE=4.111% (18.8s)
+common category_reg  l1/log leaves= 63 lr=0.02 child=12 iter=2127 Aug MAE=87.47 MAPE=4.127% (15.3s)
+Frozen common winner before holdout: l1/log, iteration=4083, config={'objective': 'l1', 'num_leaves': 63, 'learning_rate': 0.02, 'min_child_samples': 12, 'max_depth': -1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'cat_smooth': 10.0, 'cat_l2': 10.0, 'include_lane': False}
+
+FROZEN SEP-OCT HOLDOUT EVALUATIONS
+lightgbm_l1_raw_full: MAE=117.694, RMSE=637.543, MAPE=4.921%, R2=0.825466
+lightgbm_l1_log_full: MAE=115.331, RMSE=636.656, MAPE=4.847%, R2=0.825951
+lightgbm_l2_raw_full: MAE=159.456, RMSE=646.954, MAPE=7.462%, R2=0.820275
+lightgbm_l2_log_full: MAE=154.261, RMSE=650.531, MAPE=6.255%, R2=0.818282
+lightgbm_l1_raw_common: MAE=109.402, RMSE=634.326, MAPE=4.754%, R2=0.827223
+lightgbm_l1_log_common: MAE=109.764, RMSE=634.360, MAPE=4.754%, R2=0.827204
+lightgbm_l2_raw_common: MAE=154.677, RMSE=647.660, MAPE=6.650%, R2=0.819883
+lightgbm_l2_log_common: MAE=147.122, RMSE=646.080, MAPE=6.247%, R2=0.820760
+
+Best prior=engineered_ridge_full MAE=116.886; best LightGBM=lightgbm_l1_log_full MAE=115.331; wins_MAE=True; wins_MAPE=True
+Regenerated final outputs with LightGBM: validation range $209.88-$6,725.73; December range $832.70-$861.15.
+
+FINAL MODEL TABLE
+                    model feature_set        mae       rmse  mape_percent      r2
+   lightgbm_l1_raw_common      common   109.4015   634.3265        4.7545  0.8272
+   lightgbm_l1_log_common      common   109.7643   634.3601        4.7537  0.8272
+     lightgbm_l1_log_full        full   115.3314   636.6562        4.8471  0.8260
+    engineered_ridge_full        full   116.8860   635.9759        5.5422  0.8263
+     lightgbm_l1_raw_full        full   117.6937   637.5430        4.9206  0.8255
+   robust_huber_lane_full        full   134.2855   641.3737        5.8474  0.8234
+engineered_log_ridge_full        full   137.2740   641.5202        6.0646  0.8233
+        robust_huber_full        full   137.3852   643.0271        6.0316  0.8225
+   lightgbm_l2_log_common      common   147.1220   646.0801        6.2469  0.8208
+     lightgbm_l2_log_full        full   154.2607   650.5313        6.2551  0.8183
+   lightgbm_l2_raw_common      common   154.6768   647.6599        6.6497  0.8199
+     lightgbm_l2_raw_full        full   159.4557   646.9538        7.4621  0.8203
+ robust_huber_lane_common      common   206.2075   657.2972       11.5290  0.8145
+      robust_huber_common      common   207.9395   658.9698       11.6249  0.8135
+  engineered_ridge_common      common   220.9126   663.6079       12.8461  0.8109
+     median_rate_per_mile    baseline   256.9529   684.2479       11.6315  0.7990
+            global_median    baseline 1,148.9237 1,569.4242       70.1463 -0.0576
+
+POST-RUN SELECTION AUDIT
+The first finalization block above compared only full-feature LightGBM models.
+That was inconsistent with the stated August-only selection rule because the
+separately tuned common model had already won August MAE (85.772 vs 112.784).
+Final artifacts therefore use the pre-holdout common L1/log winner at iteration
+4083. No configuration changed and Sep-Oct was not used for this correction;
+the saved comparison retains every one-time frozen-variant holdout result.

@@ -1,0 +1,12 @@
+feature,feature_type,outlier_summary,normal_summary,standardized_mean_difference,ks_statistic,ks_pvalue,total_variation_distance,chi_square_pvalue,cramers_v
+distance,numeric,1034.059330,1137.213513,-0.146684,0.072843,0.209267,,,
+weight,numeric,31425.736842,31412.072742,0.001712,0.036299,0.937529,,,
+pickup_lat,numeric,35.649053,35.627708,0.004903,0.040232,0.875618,,,
+pickup_lon,numeric,-90.435665,-90.962240,0.039607,0.041460,0.852137,,,
+delivery_lat,numeric,35.582078,35.649262,-0.015785,0.038677,0.902674,,,
+delivery_lon,numeric,-89.189164,-90.876796,0.132247,0.077495,0.155982,,,
+market_index,numeric,1.137094,1.142243,-0.031490,0.053888,0.563085,,,
+quote_signal,numeric,2.078347,2.062027,0.052928,0.063033,0.365105,,,
+pickup,categorical,0.043062,0.025486,,,,0.216644,0.143074,0.047164
+delivery,categorical,0.052632,0.025098,,,,0.246577,0.014390,0.051667
+equipment,categorical,0.550239,0.567818,,,,0.043556,0.241466,0.009181

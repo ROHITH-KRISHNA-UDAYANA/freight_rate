@@ -1,23 +1,94 @@
 {
-  "selection_metric": "MAE",
-  "primary_model": "engineered_ridge_full",
+  "selection_metric": "August MAE, followed by one-time Sep-Oct reporting",
+  "primary_model": "lightgbm_l1_log_common",
   "primary_parameters": {
-    "alpha": 1500.0
+    "objective": "l1",
+    "num_leaves": 63,
+    "learning_rate": 0.02,
+    "min_child_samples": 12,
+    "max_depth": -1,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "cat_smooth": 10.0,
+    "cat_l2": 10.0,
+    "include_lane": false,
+    "target_transform": "log",
+    "best_iteration": 4083
   },
-  "december_model": "robust_huber_lane_common",
+  "december_model": "lightgbm_l1_log_common",
   "december_parameters": {
-    "alpha": 1.0,
-    "delta": 1.0,
-    "lane_smoothing": 5.0
+    "objective": "l1",
+    "num_leaves": 63,
+    "learning_rate": 0.02,
+    "min_child_samples": 12,
+    "max_depth": -1,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "cat_smooth": 10.0,
+    "cat_l2": 10.0,
+    "include_lane": false,
+    "target_transform": "log",
+    "best_iteration": 4083
   },
   "primary_holdout_metrics": {
-    "mae": 116.88602433374281,
-    "rmse": 635.9758789462684,
-    "mape_percent": 5.542229688093695
+    "mae": 109.764323,
+    "rmse": 634.360134,
+    "mape_percent": 4.753695,
+    "r2": 0.827204
   },
   "december_holdout_metrics": {
-    "mae": 206.2075129451088,
-    "rmse": 657.2972133399885,
-    "mape_percent": 11.528957697857956
+    "mae": 109.764323,
+    "rmse": 634.360134,
+    "mape_percent": 4.753695,
+    "r2": 0.827204
+  },
+  "lightgbm_experiment": {
+    "august_selected_full_model": "lightgbm_l1_log_full",
+    "august_selected_full_parameters": {
+      "objective": "l1",
+      "num_leaves": 127,
+      "learning_rate": 0.02,
+      "min_child_samples": 12,
+      "max_depth": -1,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "cat_smooth": 10.0,
+      "cat_l2": 10.0,
+      "include_lane": false,
+      "target_transform": "log",
+      "best_iteration": 2566
+    },
+    "august_selected_full_holdout_metrics": {
+      "mae": 115.33136,
+      "rmse": 636.656165,
+      "mape_percent": 4.847106,
+      "r2": 0.825951
+    },
+    "august_selected_common_model": "lightgbm_l1_log_common",
+    "august_selected_common_parameters": {
+      "objective": "l1",
+      "num_leaves": 63,
+      "learning_rate": 0.02,
+      "min_child_samples": 12,
+      "max_depth": -1,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "cat_smooth": 10.0,
+      "cat_l2": 10.0,
+      "include_lane": false,
+      "target_transform": "log",
+      "best_iteration": 4083
+    },
+    "august_selected_common_holdout_metrics": {
+      "mae": 109.764323,
+      "rmse": 634.360134,
+      "mape_percent": 4.753695,
+      "r2": 0.827204
+    },
+    "august_selected_primary_model": "lightgbm_l1_log_common",
+    "primary_selection_basis": "lowest August MAE before holdout evaluation",
+    "beats_prior_mae": true,
+    "beats_prior_mape": true,
+    "holdout_evaluations_per_variant": 1
   }
 }

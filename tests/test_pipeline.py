@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import json
 import unittest
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
+from src.spotter_freight.lightgbm_model import LightGBMFeatureBuilder
 from src.spotter_freight.modeling import FreightCleaner, regression_metrics
 from src.spotter_freight.train import split_by_date
 
@@ -52,6 +54,31 @@ class CleaningTests(unittest.TestCase):
         self.assertAlmostEqual(metrics["mae"], 15.0)
         self.assertAlmostEqual(metrics["rmse"], np.sqrt(250.0))
         self.assertAlmostEqual(metrics["mape_percent"], 10.0)
+        self.assertAlmostEqual(metrics["r2"], 0.9)
+
+    def test_lightgbm_uses_native_categoricals_and_common_schema(self) -> None:
+        frame = pd.DataFrame(
+            {
+                "pickup": ["A", "B"],
+                "delivery": ["B", "A"],
+                "equipment": ["Dry Van", "Reefer"],
+                "distance": [100.0, 250.0],
+                "weight": [20_000.0, 30_000.0],
+                "date": ["2025-01-01", "2025-01-02"],
+                "posted_rate": [500.0, 900.0],
+            }
+        )
+        cleaned = FreightCleaner().fit_transform(frame)
+        builder = LightGBMFeatureBuilder(feature_set="common", include_lane=False)
+        features = builder.fit_transform(cleaned)
+
+        self.assertEqual(builder.categorical_features, ["pickup", "delivery", "equipment"])
+        for column in builder.categorical_features:
+            self.assertIsInstance(features[column].dtype, pd.CategoricalDtype)
+        self.assertNotIn("posted_rate", features)
+        self.assertNotIn("market_index", features)
+        self.assertNotIn("quote_signal", features)
+        self.assertEqual(features.columns.tolist(), builder.feature_columns)
 
 
 class RepositoryArtifactTests(unittest.TestCase):
@@ -64,6 +91,10 @@ class RepositoryArtifactTests(unittest.TestCase):
         cls.december_template = pd.read_csv(
             ROOT / "data" / "december_chart_inputs_template.csv"
         )
+        cls.comparison = pd.read_csv(ROOT / "output" / "model_comparison.csv")
+        cls.importance = pd.read_csv(ROOT / "output" / "lgbm_feature_importance.csv")
+        with (ROOT / "output" / "model_selection.json").open(encoding="utf-8") as handle:
+            cls.selection = json.load(handle)
 
     def test_chronological_partitions(self) -> None:
         inner, tuning, holdout = split_by_date(self.train)
@@ -107,6 +138,32 @@ class RepositoryArtifactTests(unittest.TestCase):
             expected_dates,
             check_names=False,
         )
+
+    def test_lightgbm_selection_and_artifact_schemas(self) -> None:
+        lightgbm_rows = self.comparison.loc[
+            self.comparison["model"].str.startswith("lightgbm_")
+        ]
+        self.assertEqual(len(lightgbm_rows), 8)
+        self.assertEqual(
+            self.comparison.columns.tolist(),
+            [
+                "model",
+                "feature_set",
+                "selection_split",
+                "mae",
+                "rmse",
+                "mape_percent",
+                "tuned_parameters",
+                "r2",
+            ],
+        )
+        self.assertEqual(self.selection["primary_model"], "lightgbm_l1_log_common")
+        self.assertEqual(
+            self.importance.columns.tolist(),
+            ["feature", "gain", "gain_percent", "split_count"],
+        )
+        self.assertFalse(self.importance.isna().any().any())
+        self.assertAlmostEqual(self.importance["gain_percent"].sum(), 100.0, places=5)
 
 
 if __name__ == "__main__":
