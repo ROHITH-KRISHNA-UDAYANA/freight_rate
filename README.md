@@ -21,8 +21,8 @@ winner by 6.1% on MAE and 14.2% on MAPE:
 
 The raw-target diagnostic happened to score $0.36 better on holdout MAE, but it
 was not substituted after the fact: the log-target configuration had already
-won on August. See `output/model_comparison.csv` for all 17 evaluated variants
-and `report.md` for the full reasoning.
+won on August. See `output/metrics/model_comparison.csv` for all 17 evaluated
+variants and `docs/report.md` for the full reasoning.
 
 ## Prerequisites and setup
 
@@ -56,9 +56,9 @@ so this repository does not attribute unverified scores to them.
 Run from the repository root:
 
 ```powershell
-poetry run python -m src.spotter_freight.explore
-poetry run python -m src.spotter_freight.train
-poetry run python -m src.spotter_freight.tune_lightgbm
+poetry run spotter-explore
+poetry run spotter-train
+poetry run spotter-tune-lightgbm
 ```
 
 The first training command recreates the original nine baselines. The
@@ -71,7 +71,7 @@ sampling is seeded and LightGBM deterministic mode is enabled.
 Run the official scorer exactly as follows:
 
 ```powershell
-poetry run python score.py --predictions validation_predictions.csv --december-predictions data/december_chart_inputs.csv --output-dir output
+poetry run python score.py --predictions validation_predictions.csv --december-predictions data/december_chart_inputs.csv --output-dir output/figures
 ```
 
 Expected success output begins with:
@@ -91,12 +91,15 @@ poetry run python -m unittest discover -s tests -v
 
 ```text
 data/                       Supplied data and completed December input file
+docs/                       Assessment brief, report, and Loom script
 src/spotter_freight/        Exploration, cleaning, features, models, tuning pipeline
 tests/                      Standard-library regression and schema tests
-output/                     EDA logs, comparison metrics, scorer chart
+output/eda/                 Exploratory tables, plots, and audit log
+output/figures/             Official scorer-generated chart
+output/logs/                Reproducible training and validation logs
+output/metadata/            Selected-model and verification JSON
+output/metrics/             Model, split, quality, and importance tables
 validation_predictions.csv Required 12,000-row submission
-report.md                   Panel-facing technical report
-loom_script.md              Timed 2-3 minute walkthrough script
 score.py                    Official validator and chart generator
 ```
 

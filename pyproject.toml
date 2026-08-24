@@ -12,8 +12,13 @@ dependencies = [
     "scipy (>=1.10,<2)",
 ]
 
+[project.scripts]
+spotter-explore = "spotter_freight.explore:main"
+spotter-train = "spotter_freight.train:main"
+spotter-tune-lightgbm = "spotter_freight.tune_lightgbm:main"
+
 [tool.poetry]
-package-mode = false
+packages = [{ include = "spotter_freight", from = "src" }]
 
 [build-system]
 requires = ["poetry-core>=2.0,<3"]

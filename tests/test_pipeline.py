@@ -9,9 +9,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.spotter_freight.lightgbm_model import LightGBMFeatureBuilder
-from src.spotter_freight.modeling import FreightCleaner, regression_metrics
-from src.spotter_freight.train import split_by_date
+from spotter_freight.lightgbm_model import LightGBMFeatureBuilder
+from spotter_freight.modeling import FreightCleaner, regression_metrics
+from spotter_freight.train import split_by_date
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -91,9 +91,13 @@ class RepositoryArtifactTests(unittest.TestCase):
         cls.december_template = pd.read_csv(
             ROOT / "data" / "december_chart_inputs_template.csv"
         )
-        cls.comparison = pd.read_csv(ROOT / "output" / "model_comparison.csv")
-        cls.importance = pd.read_csv(ROOT / "output" / "lgbm_feature_importance.csv")
-        with (ROOT / "output" / "model_selection.json").open(encoding="utf-8") as handle:
+        cls.comparison = pd.read_csv(ROOT / "output" / "metrics" / "model_comparison.csv")
+        cls.importance = pd.read_csv(
+            ROOT / "output" / "metrics" / "lgbm_feature_importance.csv"
+        )
+        with (ROOT / "output" / "metadata" / "model_selection.json").open(
+            encoding="utf-8"
+        ) as handle:
             cls.selection = json.load(handle)
 
     def test_chronological_partitions(self) -> None:

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -15,11 +14,16 @@ from .modeling import (
     fit_freight_model,
     regression_metrics,
 )
+from .paths import (
+    DATA_DIR,
+    LOGS_DIR,
+    METADATA_DIR,
+    METRICS_DIR,
+    ROOT,
+    ensure_output_directories,
+)
 
 
-ROOT = Path(__file__).resolve().parents[2]
-DATA_DIR = ROOT / "data"
-OUTPUT_DIR = ROOT / "output"
 TUNING_START = pd.Timestamp("2025-08-01")
 HOLDOUT_START = pd.Timestamp("2025-09-01")
 FINAL_VALIDATION_START = pd.Timestamp("2025-11-01")
@@ -154,7 +158,7 @@ def cleaning_summary(train: pd.DataFrame, validation: pd.DataFrame) -> pd.DataFr
 
 
 def main() -> None:
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    ensure_output_directories()
     train = pd.read_csv(DATA_DIR / "train_test.csv")
     validation = pd.read_csv(DATA_DIR / "validation.csv")
     template = pd.read_csv(DATA_DIR / "validation_predictions_template.csv")
@@ -165,7 +169,7 @@ def main() -> None:
     model_train = pd.concat([inner_train, tuning], ignore_index=True)
 
     original_stdout = sys.stdout
-    with (OUTPUT_DIR / "training.log").open("w", encoding="utf-8", newline="\n") as log:
+    with (LOGS_DIR / "training.log").open("w", encoding="utf-8", newline="\n") as log:
         sys.stdout = Tee(original_stdout, log)
         try:
             print("SPOTTER FREIGHT-RATE MODEL TRAINING")
@@ -283,7 +287,7 @@ def main() -> None:
             comparison = pd.DataFrame(results).sort_values(
                 ["mae", "rmse", "mape_percent"], ignore_index=True
             )
-            comparison.to_csv(OUTPUT_DIR / "model_comparison.csv", index=False, float_format="%.6f")
+            comparison.to_csv(METRICS_DIR / "model_comparison.csv", index=False, float_format="%.6f")
             print("\nFINAL CHRONOLOGICAL HOLDOUT RESULTS")
             print(
                 comparison[["model", "feature_set", "mae", "rmse", "mape_percent", "tuned_parameters"]]
@@ -312,7 +316,7 @@ def main() -> None:
                     }
                 )
             pd.DataFrame(monthly_rows).to_csv(
-                OUTPUT_DIR / "holdout_monthly_metrics.csv", index=False, float_format="%.6f"
+                METRICS_DIR / "holdout_monthly_metrics.csv", index=False, float_format="%.6f"
             )
 
             primary_spec = tuned[primary_name]
@@ -350,7 +354,7 @@ def main() -> None:
             december_output.to_csv(DATA_DIR / "december_chart_inputs.csv", index=False)
 
             cleaning = cleaning_summary(train, validation)
-            cleaning.to_csv(OUTPUT_DIR / "data_cleaning_summary.csv", index=False)
+            cleaning.to_csv(METRICS_DIR / "data_cleaning_summary.csv", index=False)
             split_summary = pd.DataFrame(
                 [
                     {
@@ -376,7 +380,7 @@ def main() -> None:
                     },
                 ]
             )
-            split_summary.to_csv(OUTPUT_DIR / "split_summary.csv", index=False)
+            split_summary.to_csv(METRICS_DIR / "split_summary.csv", index=False)
 
             selection = {
                 "selection_metric": "MAE",
@@ -391,7 +395,7 @@ def main() -> None:
                     december_name, ["mae", "rmse", "mape_percent"]
                 ].to_dict(),
             }
-            with (OUTPUT_DIR / "model_selection.json").open("w", encoding="utf-8") as handle:
+            with (METADATA_DIR / "model_selection.json").open("w", encoding="utf-8") as handle:
                 json.dump(selection, handle, indent=2)
 
             print(

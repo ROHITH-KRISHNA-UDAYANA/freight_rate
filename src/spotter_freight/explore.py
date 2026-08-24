@@ -9,9 +9,9 @@ from __future__ import annotations
 
 import os
 import sys
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+from .paths import DATA_DIR, EDA_DIR, ROOT
+
 os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".matplotlib"))
 
 import matplotlib
@@ -22,8 +22,7 @@ import numpy as np
 import pandas as pd
 
 
-DATA_DIR = ROOT / "data"
-OUTPUT_DIR = ROOT / "output" / "eda"
+OUTPUT_DIR = EDA_DIR
 TARGET = "posted_rate"
 ID_COLUMN = "load_id"
 DATE_COLUMN = "date"

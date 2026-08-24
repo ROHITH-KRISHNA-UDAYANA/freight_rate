@@ -13,7 +13,6 @@ from __future__ import annotations
 import json
 import sys
 import time
-from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -22,7 +21,15 @@ from scipy.stats import chi2_contingency, ks_2samp
 
 from .lightgbm_model import fit_lightgbm_model
 from .modeling import TARGET, fit_freight_model, regression_metrics
-from .train import DATA_DIR, OUTPUT_DIR, ROOT, Tee, split_by_date
+from .paths import (
+    DATA_DIR,
+    LOGS_DIR,
+    METADATA_DIR,
+    METRICS_DIR,
+    ROOT,
+    ensure_output_directories,
+)
+from .train import Tee, split_by_date
 
 
 NUM_LEAVES = (63, 100, 127, 150)
@@ -363,7 +370,7 @@ def add_r2_to_existing(comparison: pd.DataFrame, holdout_target: np.ndarray) -> 
 
 
 def main() -> None:
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    ensure_output_directories()
     train = pd.read_csv(DATA_DIR / "train_test.csv")
     validation = pd.read_csv(DATA_DIR / "validation.csv")
     template = pd.read_csv(DATA_DIR / "validation_predictions_template.csv")
@@ -372,12 +379,12 @@ def main() -> None:
     model_train = pd.concat([inner_train, tuning], ignore_index=True)
     holdout_target = holdout[TARGET].to_numpy(dtype=float)
 
-    existing_comparison = pd.read_csv(OUTPUT_DIR / "model_comparison.csv")
+    existing_comparison = pd.read_csv(METRICS_DIR / "model_comparison.csv")
     if existing_comparison["model"].astype(str).str.startswith("lightgbm_").any():
         raise RuntimeError("LightGBM rows already exist; refusing to duplicate holdout evaluations")
 
     original_stdout = sys.stdout
-    with (OUTPUT_DIR / "lgbm_training.log").open("w", encoding="utf-8", newline="\n") as log:
+    with (LOGS_DIR / "lgbm_training.log").open("w", encoding="utf-8", newline="\n") as log:
         sys.stdout = Tee(original_stdout, log)
         try:
             print("SPOTTER NATIVE-CATEGORICAL LIGHTGBM TUNING", flush=True)
@@ -579,7 +586,7 @@ def main() -> None:
             else:
                 print("LightGBM did not beat prior MAE; official prediction files were left unchanged.")
 
-            selection_path = OUTPUT_DIR / "model_selection.json"
+            selection_path = METADATA_DIR / "model_selection.json"
             with selection_path.open("r", encoding="utf-8") as handle:
                 selection = json.load(handle)
             experiment = {
@@ -634,24 +641,24 @@ def main() -> None:
 
             # Write outputs only after every holdout score is final and frozen.
             comparison.to_csv(
-                OUTPUT_DIR / "model_comparison.csv", index=False, float_format="%.6f"
+                METRICS_DIR / "model_comparison.csv", index=False, float_format="%.6f"
             )
             pd.DataFrame(all_tuning_rows).to_csv(
-                OUTPUT_DIR / "lgbm_tuning_results.csv", index=False, float_format="%.6f"
+                METRICS_DIR / "lgbm_tuning_results.csv", index=False, float_format="%.6f"
             )
             outlier_audit.to_csv(
-                OUTPUT_DIR / "lgbm_outlier_feature_comparison.csv",
+                METRICS_DIR / "lgbm_outlier_feature_comparison.csv",
                 index=False,
                 float_format="%.6f",
             )
             final_primary_model.feature_importance().to_csv(
-                OUTPUT_DIR / "lgbm_feature_importance.csv",
+                METRICS_DIR / "lgbm_feature_importance.csv",
                 index=False,
                 float_format="%.8f",
             )
             with selection_path.open("w", encoding="utf-8") as handle:
                 json.dump(selection, handle, indent=2)
-            with (OUTPUT_DIR / "lgbm_verification.json").open("w", encoding="utf-8") as handle:
+            with (METADATA_DIR / "lgbm_verification.json").open("w", encoding="utf-8") as handle:
                 json.dump(
                     {
                         "raw_distance_rate_correlation": raw_correlation,
@@ -687,7 +694,7 @@ def main() -> None:
                         }
                     )
                 pd.DataFrame(monthly_rows).to_csv(
-                    OUTPUT_DIR / "holdout_monthly_metrics.csv",
+                    METRICS_DIR / "holdout_monthly_metrics.csv",
                     index=False,
                     float_format="%.6f",
                 )

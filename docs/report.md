@@ -204,7 +204,7 @@ iterations. Validation predictions are finite and positive, spanning $208.29
 to $6,887.91. Gain-based importance puts distance first at 38.7%, followed by
 delivery at 9.5%, log distance at 9.3%, pickup at 9.2%, the distance-weight
 interaction at 7.2%, and date trend at 5.4%. The complete table is
-`output/lgbm_feature_importance.csv`.
+`output/metrics/lgbm_feature_importance.csv`.
 
 The December chart file lacks coordinates, `market_index`, and `quote_signal`.
 I did not fabricate placeholders. The common feature set was tuned and
@@ -213,14 +213,14 @@ and date-derived features. It won August selection overall, so the same final
 model supplies both validation and December. The 31 fixed-lane predictions run
 from $827.41 to $848.12.
 
-![Official scorer-generated December prediction chart](output/candidate_december.png)
+![Official scorer-generated December prediction chart](../output/figures/candidate_december.png)
 
 The official `score.py` output is:
 
 ```text
 Validated 12,000 final predictions.
 Validated 31 fixed December predictions.
-Created chart: output\candidate_december.png
+Created chart: output\figures\candidate_december.png
 Final validation metrics are calculated by Spotter after submission.
 ```
 

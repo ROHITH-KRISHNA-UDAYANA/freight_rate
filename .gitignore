@@ -8,7 +8,15 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .coverage
+htmlcov/
+
+# Reproducible Python build artifacts
+build/
+dist/
+*.egg-info/
 
 # Editor and operating-system metadata
 .idea/
@@ -21,5 +29,4 @@ tmp/
 *.tmp
 *.log
 !output/eda/exploration.log
-!output/training.log
-!output/lgbm_training.log
+!output/logs/*.log
